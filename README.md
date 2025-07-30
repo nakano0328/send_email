@@ -84,12 +84,6 @@ schedule:
 - `SMTP_USERNAME`: あなたのGmailアドレス
 - `SMTP_PASSWORD`: Gmailのアプリパスワード
 
-### Yahoo Mail使用時の設定例
-- `SMTP_SERVER`: `smtp.mail.yahoo.co.jp`
-- `SMTP_PORT`: `587`
-- `SMTP_USERNAME`: あなたのYahoo Mailアドレス
-- `SMTP_PASSWORD`: Yahoo Mailのアプリパスワード
-
 ## 注意事項
 
 - メール送信にはアプリパスワードの使用を強く推奨します
