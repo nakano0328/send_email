@@ -1,0 +1,43 @@
+# ワークフローの名前
+name: 定期メール自動送信
+
+on:
+  # スケジュール実行のトリガー
+  schedule:
+    # cron形式でスケジュールを指定 (時刻はUTC)
+    # 以下の例は、毎日午前8時 (JST) に実行 (UTCでは前日の23:00)
+    - cron: "0 23 * * *"
+
+  # 手動で実行するためのトリガー (テストに便利)
+  workflow_dispatch:
+
+jobs:
+  send-scheduled-email:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. リポジトリのコードをチェックアウト
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Pythonの環境をセットアップ
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      # 3. (今回は不要だが) 依存ライブラリをインストール
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # 4. Pythonスクリプトを実行してメールを送信
+      - name: Run script and send email
+        env:
+          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+
+        # スクリプトを実行(ファイル名を main.py と仮定)
+        run: python main.py
